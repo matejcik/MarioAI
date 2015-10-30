@@ -78,22 +78,22 @@ public class MarioSimulator {
 	}
 	
 	public synchronized EvaluationInfo run(IAgent agent) {
-		System.out.println("[MarioSimulator] run(" + (agent == null ? "NULL" : agent.getClass().getName()) + ")");
+		//("[MarioSimulator] run(" + (agent == null ? "NULL" : agent.getClass().getName()) + ")");
 		if (agent == null) {
 			System.err.println("[MarioSimulator] agent is NULL! Aborting!");
 			throw new RuntimeException("Agent is NULL! Please specify correct agent to run within the simulator.");
 		}
 		
-		System.out.println("[MarioSimulator] Initializing MarioOptions..");
+		//("[MarioSimulator] Initializing MarioOptions..");
 		
 		MarioOptions.reset(options);
 		
-		System.out.println("[MarioSimulator] Initializing the environment and the agent...");
+		//("[MarioSimulator] Initializing the environment and the agent...");
 		
 		IEnvironment environment = MarioEnvironment.getInstance();
 		environment.reset(agent);
 				
-		System.out.println("[MarioSimulator] SIMULATION RUNNING!");
+		//("[MarioSimulator] SIMULATION RUNNING!");
 		
 		while (!environment.isLevelFinished()) {
 			// UPDATE THE ENVIRONMENT
@@ -108,14 +108,14 @@ public class MarioSimulator {
 			agent.receiveReward(environment.getIntermediateReward());
 		}
 		
-		System.out.println("[MarioSimulator] SIMULATION ENDED!");
+		//("[MarioSimulator] SIMULATION ENDED!");
 		
 		EvaluationInfo result = environment.getEvaluationInfo();
 		
-		System.out.println("[MarioSimulator] RESULT:");
-		System.out.println(result.toString());
+		//("[MarioSimulator] RESULT:");
+		//(result.toString());
 		
-		System.out.println("[MarioSimulator] Simulator terminated.");
+		//("[MarioSimulator] Simulator terminated.");
 		
 		return result;		
 	}

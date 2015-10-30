@@ -574,16 +574,16 @@ public class VisualizationComponent extends JComponent {
 		this.agentNameStr = agent.getName();
 		if (agent instanceof KeyListener) {
 			if (prevHumanKeyBoardAgent != null) {
-				System.out.println("[MarioVisualComponent] ~ Unregistering OLD agent's KeyListener callback...");
+				//System.out.println("[MarioVisualComponent] ~ Unregistering OLD agent's KeyListener callback...");
 				this.removeKeyListener(prevHumanKeyBoardAgent);
 			}
-			System.out.println("[MarioVisualComponent] ~ Registering agent's KeyListener callback...");			
+			//System.out.println("[MarioVisualComponent] ~ Registering agent's KeyListener callback...");
 			
 			this.prevHumanKeyBoardAgent = (KeyListener) agent;
 			this.addKeyListener(this.prevHumanKeyBoardAgent);
 		} else {
 			if (prevHumanKeyBoardAgent != null) {
-				System.out.println("[MarioVisualComponent] ~ Unregistering OLD agent's KeyListener callback...");
+				///System.out.println("[MarioVisualComponent] ~ Unregistering OLD agent's KeyListener callback...");
 				this.removeKeyListener(prevHumanKeyBoardAgent);
 				this.prevHumanKeyBoardAgent = null;
 			}

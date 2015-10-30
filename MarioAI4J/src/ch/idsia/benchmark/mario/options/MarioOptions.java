@@ -427,10 +427,10 @@ public class MarioOptions {
 		}
 		args = processedArgs.toArray(new String[0]);		
 		
-		System.out.print("[MarioOptions] Parsing " + args.length + " arguments ~ " + (args.length / 2) + " parameters:");
+		/*System.out.print("[MarioOptions] Parsing " + args.length + " arguments ~ " + (args.length / 2) + " parameters:");
 		for (String arg : args) {
 			System.out.print(" " + arg);
-		}
+		}*/
 		//();
 		
 		if (args.length % 2 != 0) {
