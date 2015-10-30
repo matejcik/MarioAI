@@ -67,4 +67,23 @@ public class BetterBinHorizon {
 
 		return result;
 	}
+
+	public static String decode(int horizon)
+	{
+		int spikebits = horizon >> 16;
+		boolean marioFlying = (horizon & 0x8000) == 0x8000;
+		int enemybits = (horizon >> 8) & 0x3f;
+		int terrainnum = (horizon >> 2) & 0x7f;
+		int height[] = new int[4];
+		height[2] = (terrainnum % 5) - 2;
+		height[1] = ((terrainnum/5) % 5) - 2;
+		height[0] = ((terrainnum/25) % 5) - 2;
+		height[3] = horizon & 0x03 - 2;
+
+		return String.format("spikes %s : %s : enemies %s : heights %d %d %d %d (tn %d)",
+			Integer.toBinaryString(spikebits),
+			marioFlying ? "flying" : "standing",
+			Integer.toBinaryString(enemybits),
+			height[0],height[1],height[2],height[3], terrainnum);
+	}
 }

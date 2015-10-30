@@ -25,7 +25,7 @@ public class BetterBinAgent extends MarioHijackAIBase implements IAgent, Compara
 	public static final int ACTION_TABLE_SIZE = 65536 * 8;
 
 	private byte[] actionTable = new byte[ACTION_TABLE_SIZE];
-	private int[] actionUsed = new int[ACTION_TABLE_SIZE];
+	public int[] actionUsed = new int[ACTION_TABLE_SIZE];
 
 	public int fitness = Integer.MIN_VALUE;
 
@@ -111,6 +111,7 @@ public class BetterBinAgent extends MarioHijackAIBase implements IAgent, Compara
 
 		int horizon = BetterBinHorizon.fromTerrain(t, e, mario);
 		byte actions = actionTable[horizon];
+		actionUsed[horizon]++;
 		action.set(MarioKey.RIGHT, (actions & RUN) == RUN);
 		action.set(MarioKey.JUMP, ((actions & JUMP) == JUMP) && (mario.mayJump || !mario.onGround));
 		action.set(MarioKey.SPEED, (actions & SHOOT) == SHOOT);
