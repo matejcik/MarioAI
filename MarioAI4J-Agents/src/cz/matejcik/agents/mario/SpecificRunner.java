@@ -2,7 +2,9 @@ package cz.matejcik.agents.mario;
 
 import ch.idsia.benchmark.mario.MarioSimulator;
 import ch.idsia.benchmark.mario.engine.generalization.Enemy;
+import ch.idsia.benchmark.mario.engine.sprites.Mario;
 import ch.idsia.benchmark.mario.options.FastOpts;
+import ch.idsia.tools.EvaluationInfo;
 
 /**
  * Agent that sprints forward, jumps and shoots.
@@ -23,12 +25,27 @@ public class SpecificRunner {
 			;
 
 		MarioSimulator simulator = new MarioSimulator(options);
+		MarioSimulator simoff = new MarioSimulator(options + FastOpts.VIS_OFF);
+
+		//MutationAgent ma = new BetterBinAgent();
 		//Agent agent = new Agent("agent.txt");
 		//Agent agent = Agent.randomAgent();
-		GrowingAgent ga = GrowingAgent.fromFile("agent-cont0.txt");
-		ga.learning = false;
+		//MutationAgent ma = new SemAgent();
+		//MutationAgent ma = SemAgent.fromFilename("agent-cont0.txt");
+		//MutationAgent ma = GrowingAgent.fromFile("agent-cont0.txt");
+		MutationAgent ma = new BetterBinAgent("agent-run-2-gen-198-best-0.txt");
+		ma.setLearning(false);
+
+		int wins = 0;
+		for (int i = 0; i < 100; ++i) {
+			EvaluationInfo info = simoff.run(ma);
+			if (info.marioStatus == Mario.STATUS_WIN) ++wins;
+		}
+		System.out.println("" + wins + " wins out of 100");
+
+
 		while (true) {
-			simulator.run(ga);
+			simulator.run(ma);
 		}
 	}
 }

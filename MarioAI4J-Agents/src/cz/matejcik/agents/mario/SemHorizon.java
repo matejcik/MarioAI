@@ -35,7 +35,7 @@ public class SemHorizon implements Serializable {
 		s.myHeight = (byte)random.nextInt(MAXHEIGHT);
 		s.obstacleHeight = (byte)random.nextInt(MAXHEIGHT);
 		s.onGround = random.nextBoolean();
-		return null;
+		return s;
 	}
 
 	public static SemHorizon fromTerrain(Tiles t, Entities e, MarioEntity m)
@@ -88,13 +88,15 @@ public class SemHorizon implements Serializable {
 	private static byte mutateWithLimit (byte what, int limit, double chance)
 	{
 		if (random.nextDouble() > chance) return what;
-		double r = Math.pow(random.nextDouble() * limit, 2.5);
+		/*double r = Math.pow(random.nextDouble() * limit, 2.5);
 		int rr = 0;
 		if (r > 0) rr = (int)Math.floor(r);
-		else rr = (int)Math.ceil(r);
+		else rr = (int)Math.ceil(r);*/
+		int rr = random.nextInt(7) - 3;
 		int res = what + rr;
 		res = Math.max(res, 0);
 		res = Math.min(res, limit - 1);
+
 		return (byte)res;
 	}
 

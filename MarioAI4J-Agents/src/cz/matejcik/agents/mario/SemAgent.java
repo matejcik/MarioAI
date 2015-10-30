@@ -13,7 +13,9 @@ import java.util.Random;
 /**
  * Created by matejcik on 29.10.15.
  */
-public class SemAgent extends MarioHijackAIBase implements Comparable<SemAgent>, MutationAgent {
+public class SemAgent extends MarioHijackAIBase implements Comparable<SemAgent>, MutationAgent, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final int JUMP = 0x01;
 	private static final int SHOOT = 0x02;
@@ -21,11 +23,12 @@ public class SemAgent extends MarioHijackAIBase implements Comparable<SemAgent>,
 
 	private static final Random random = new Random();
 
-	public static final int ACTION_TABLE_SIZE = 16384;
+	public static final int ACTION_TABLE_SIZE = 8192;
 
 	public int fitness = Integer.MIN_VALUE;
 
 	private Map<SemHorizon, Byte> actionMap = new HashMap<>();
+	private Map<SemHorizon, Integer> usageCounter = new HashMap<>();
 
 	private void randomize() {
 		for (int i = 0; i < ACTION_TABLE_SIZE; ++i) {
@@ -76,6 +79,11 @@ public class SemAgent extends MarioHijackAIBase implements Comparable<SemAgent>,
 	}
 
 	@Override
+	public MutationAgent offspring(MutationAgent other, double mutationChance) {
+		return null;
+	}
+
+	@Override
 	public void dump(String filename) {
 		try {
 			FileOutputStream fos = new FileOutputStream(filename);
@@ -93,13 +101,19 @@ public class SemAgent extends MarioHijackAIBase implements Comparable<SemAgent>,
 
 		SemHorizon horizon = SemHorizon.fromTerrain(t, e, mario);
 		SemHorizon best = null;
-		double distance = Double.MIN_VALUE;
+		double distance = Double.MAX_VALUE;
 		for (SemHorizon k : actionMap.keySet()) {
 			double d = k.distance(horizon);
 			if (distance > d) {
 				distance = d;
 				best = k;
 			}
+		}
+
+		if (usageCounter.containsKey(best)) {
+			usageCounter.put(best, usageCounter.get(best) + 1);
+		} else {
+			usageCounter.put(best, 1);
 		}
 
 		byte actions = actionMap.get(best);

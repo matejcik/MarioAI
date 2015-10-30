@@ -59,6 +59,11 @@ public class GrowingAgent extends MarioHijackAIBase implements IAgent, Comparabl
 	}
 
 	@Override
+	public MutationAgent offspring(MutationAgent other, double mutationChance) {
+		return null;
+	}
+
+	@Override
 	public void dump(String filename) {
 		try {
 			FileOutputStream fos = new FileOutputStream(filename);

@@ -10,6 +10,8 @@ public interface MutationAgent extends IAgent {
 	void dump (String filename);
 	MutationAgent mutate(double mutationChance);
 
+	MutationAgent offspring(MutationAgent other, double mutationChance);
+
 	int getFitness();
 	void setFitness(int fitness);
 
