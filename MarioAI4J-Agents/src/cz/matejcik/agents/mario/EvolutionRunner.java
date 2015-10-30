@@ -89,14 +89,13 @@ public class EvolutionRunner {
 			// + FastOpts.L_RANDOMIZE
 			;
 
-//		newAgents();
-
-//		runGenerations(options, 1, 200, 5, true);
+		newAgents();
+		runGenerations(options, 1, 200, 5, true);
 //		runGenerations(options, 1, 5, 3, false);
 
-		loadPreviousBestSet(2, 199);
+/*		loadPreviousBestSet(2, 199);
 		mutatePreviousGeneration(false);
-		runGenerations(options, 3, 200, 5, false);
+		runGenerations(options, 3, 200, 5, false); */
 
 		MutationAgent superbest = bestOfTheBunch.get(0);
 		int c = 0;

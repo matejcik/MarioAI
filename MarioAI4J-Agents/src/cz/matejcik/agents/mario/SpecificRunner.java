@@ -33,7 +33,7 @@ public class SpecificRunner {
 		//MutationAgent ma = new SemAgent();
 		//MutationAgent ma = SemAgent.fromFilename("agent-cont0.txt");
 		//MutationAgent ma = GrowingAgent.fromFile("agent-cont0.txt");
-		MutationAgent ma = new BetterBinAgent("agent-run-3-gen-199-best-0.txt");
+		MutationAgent ma = new BetterBinAgent("agent-run-1-gen-51-best-0.txt");
 		ma.setLearning(false);
 
 		int wins = 0;
@@ -46,7 +46,7 @@ public class SpecificRunner {
 			EvaluationInfo info = simoff.run(ma);
 			if (info.marioStatus == Mario.STATUS_WIN) ++wins;
 		}
-		for (int i = 0; i < 65536 * 8; ++i) {
+		for (int i = 0; i < 65536 * 2; ++i) {
 			BetterBinAgent ba = (BetterBinAgent)ma;
 			int ac = ba.actionUsed[i];
 			if (ac > 0) acts++;
