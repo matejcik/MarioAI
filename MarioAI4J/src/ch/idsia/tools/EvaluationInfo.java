@@ -105,8 +105,10 @@ public final class EvaluationInfo implements Cloneable {
 	}
 
 	public int computeBasicFitness() {
-		return distancePassedPhys - timeSpent + coinsGained + marioStatus
-				* marioSystemOfValues.win;
+		int ms = marioStatus;
+		if (marioStatus == Mario.STATUS_RUNNING)
+			ms = 0;
+		return distancePassedPhys - timeSpent + coinsGained + ms * marioSystemOfValues.win;
 	}
 
 	public int computeWeightedFitness(SystemOfValues sov) {

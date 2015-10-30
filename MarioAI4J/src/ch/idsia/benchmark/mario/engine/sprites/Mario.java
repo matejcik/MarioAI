@@ -60,8 +60,8 @@ public final class Mario extends Sprite {
 		
 	}
 
-	public static final int STATUS_RUNNING = 2;
-	public static final int STATUS_WIN = 1;
+	public static final int STATUS_RUNNING = 1;
+	public static final int STATUS_WIN = 2;
 	public static final int STATUS_DEAD = 0;
 
 	private static float marioGravity;
