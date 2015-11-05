@@ -74,8 +74,7 @@ public class EvolutionRunner {
 
 	private static int calculateFitness(EvaluationInfo info) {
 		return (info.distancePassedPhys - info.timeSpent)
-			+ ((info.marioStatus == Mario.STATUS_WIN) ? 1024 : 0)
-			+ info.marioMode.getCode() * 512;
+			- info.collisionsWithCreatures * 512;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -84,18 +83,20 @@ public class EvolutionRunner {
 				//+ FastOpts.VIS_ON_2X
 				+ FastOpts.VIS_OFF
 				+ FastOpts.LEVEL_02_JUMPING
-				+ FastOpts.L_ENEMY(Enemy.GOOMBA, Enemy.SPIKY)
+				+ FastOpts.L_ENEMY(/*Enemy.GOOMBA, */Enemy.SPIKY)
 				+ FastOpts.L_TUBES_ON
+				+ FastOpts.S_MARIO_INVULNERABLE
 			// + FastOpts.L_RANDOMIZE
 			;
 
-		newAgents();
-		runGenerations(options, 1, 200, 5, true);
-//		runGenerations(options, 1, 5, 3, false);
 
-/*		loadPreviousBestSet(2, 199);
+		newAgents();
+		runGenerations(options, 1, 500, 1, true);
+
+/*
+		loadPreviousBestSet(1, 220);
 		mutatePreviousGeneration(false);
-		runGenerations(options, 3, 200, 5, false); */
+		runGenerations(options, 2, 1000, 1, false);*/
 
 		MutationAgent superbest = bestOfTheBunch.get(0);
 		int c = 0;
@@ -113,11 +114,11 @@ public class EvolutionRunner {
 	}
 
 	private static void runGenerations(String options, int run, int generations, int levels, boolean learning) {
-		int prevBestFitness = Integer.MIN_VALUE;
 		for (int i = 0; i < generations; ++i) {
-			int bestFitness = Integer.MIN_VALUE;
 			fitnessResults.clear();
 			EvaluationInfo info = null;
+
+			//MarioSimulator ms = new MarioSimulator(options);
 
 			for (MutationAgent a : currentAgents) a.setFitness(0);
 
@@ -125,14 +126,17 @@ public class EvolutionRunner {
 				MarioSimulator ms = new MarioSimulator(options + FastOpts.L_RANDOM_SEED(9 * i + 8 * j));
 				int ac = 0;
 
+				int bestFitness = -1;
 				for (MutationAgent a : currentAgents) {
 					info = ms.run(a);
 					a.setFitness(a.getFitness() + calculateFitness(info));
 					System.out.println(
-						String.format("gen: %d (%d of %d); lvl: %d of %d; status: %d; fitness %d (best %d)",
+						String.format("gen: %d (%d of %d); lvl: %d of %d; status: %d; hits %d; fitness %d (best %d)",
 							i + 1, ac, currentAgents.size(),
 							j + 1, levels,
-							info.marioStatus, a.getFitness() / (j + 1), bestFitness)
+							info.marioStatus,
+							info.collisionsWithCreatures,
+							a.getFitness() / (j + 1), bestFitness)
 					);
 
 					if (a.getFitness() / (j+1) > bestFitness) bestFitness = a.getFitness() / (j+1);
@@ -143,7 +147,6 @@ public class EvolutionRunner {
 			for (MutationAgent a : currentAgents) {
 				fitnessResults.add(a);
 			}
-			prevBestFitness = bestFitness;
 			mutatePreviousGeneration(false);
 
 			for (int bb = 0; bb < BEST_COUNT; ++bb) {

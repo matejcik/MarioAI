@@ -22,7 +22,7 @@ public class BetterBinAgent extends MarioHijackAIBase implements IAgent, Compara
 
 	private static final Random random = new Random();
 
-	public static final int ACTION_TABLE_SIZE = 65536 * 2;
+	public static final int ACTION_TABLE_SIZE = 64;
 
 	private byte[] actionTable = new byte[ACTION_TABLE_SIZE];
 	public int[] actionUsed = new int[ACTION_TABLE_SIZE];
@@ -31,7 +31,7 @@ public class BetterBinAgent extends MarioHijackAIBase implements IAgent, Compara
 
 	public BetterBinAgent() {
 		for (int i = 0; i < actionTable.length; ++i) {
-			final int HIGHEST_BIT = 0x2000;
+			final int HIGHEST_BIT = 0x100;
 			actionTable[i] = (byte)random.nextInt(16);
 			if ((i & HIGHEST_BIT) == HIGHEST_BIT) {
 				actionTable[i] |= JUMP;
@@ -67,7 +67,6 @@ public class BetterBinAgent extends MarioHijackAIBase implements IAgent, Compara
 		BetterBinAgent next = new BetterBinAgent(false);
 
 		for (int i = 0; i < actionTable.length; ++i) {
-			if (actionUsed[i] == 0) continue;
 			/*if (actionUsed[i] > 500) mutationChance *= 0.01;
 			else if (actionUsed[i] > 100) mutationChance *= 0.2;
 			else if (actionUsed[i] > 50) mutationChance *= 0.5;*/
@@ -89,7 +88,6 @@ public class BetterBinAgent extends MarioHijackAIBase implements IAgent, Compara
 		BetterBinAgent dad = (BetterBinAgent)other;
 		BetterBinAgent kid = new BetterBinAgent(false);
 		for (int i = 0; i < actionTable.length; ++i) {
-			if (actionUsed[i] == 0) continue;
 			if (random.nextBoolean()) {
 				kid.actionTable[i] = dad.actionTable[i];
 				kid.actionUsed[i] = dad.actionUsed[i];
