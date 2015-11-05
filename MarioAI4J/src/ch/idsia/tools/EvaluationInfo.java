@@ -112,8 +112,11 @@ public final class EvaluationInfo implements Cloneable {
 	}
 
 	public int computeWeightedFitness(SystemOfValues sov) {
+		int ms = marioStatus;
+		if (marioStatus == Mario.STATUS_RUNNING)
+			ms = 0;
 		return distancePassedPhys * sov.distance + flowersDevoured
-				* sov.flowerFire + marioStatus * sov.win + marioMode.getCode() * sov.mode
+				* sov.flowerFire + ms * sov.win + marioMode.getCode() * sov.mode
 				+ mushroomsDevoured * sov.mushroom + greenMushroomsDevoured
 				* sov.greenMushroom + coinsGained * sov.coins
 				+ hiddenBlocksFound * sov.hiddenBlock + killsTotal * sov.kills
