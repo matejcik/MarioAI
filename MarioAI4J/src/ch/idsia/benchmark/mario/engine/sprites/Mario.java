@@ -742,7 +742,7 @@ public final class Mario extends Sprite {
 	}
 
 	public void getHurt(final int spriteKind) {
-		if (deathTime > 0 || isMarioInvulnerable)
+		if (deathTime > 0/* || isMarioInvulnerable*/)
 			return;
 
 		if (invulnerableTime > 0)
@@ -751,7 +751,9 @@ public final class Mario extends Sprite {
 		++collisionsWithCreatures;
 		levelScene
 				.appendBonusPoints(-MarioEnvironment.IntermediateRewardsSystemOfValues.kills);
-		if (large) {
+		if (isMarioInvulnerable) {
+			return;
+		} else if (large) {
 			// levelScene.paused = true;
 			// powerUpTime = -3 * FractionalPowerUpTime;
 			if (fire) {
